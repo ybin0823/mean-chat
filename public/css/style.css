@@ -3,3 +3,7 @@ form {
 	width: 100%;
 	bottom : 10px;
 }
+
+li {
+	list-style: none;
+}

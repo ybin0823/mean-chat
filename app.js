@@ -12,4 +12,13 @@ httpServer.listen(8080, function(req,res){
 
 io.on('connection', function (socket) {
   console.log("user connected!");
+
+  socket.on('disconnect', function() {
+  	console.log("user disconnected!");
+  });
+
+  socket.on('send message', function(message) {
+  	console.log("chat : " + message);
+  	io.emit('send message', message);
+  })
 });
