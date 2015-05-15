@@ -8,10 +8,18 @@
 	<script src="/bower_components/socket.io-client/socket.io.js"></script>
 <body>
 	<ul id="messages"></ul>
+	<!-- <form class="form-inline">
+		<div class="form-group">
+			<input id="m" class="form-control" type="text" autocomplete="off" />
+			<input class="btn btn-default" type="submit" value="Send" />
+		</div>
+	</form> -->
 	<form>
-		<input id="m" type="text" class="form-control" autocomplete="off" /><button class="btn btn-default">Send</button>
+		<div class="col-sm-10">
+			<input class="form-control" type="text">
+		</div>
+		<input class="btn btn-default" type="submit" value="Send">
 	</form>
-
 	<script>
 	  var socket = io();
 	</script>
