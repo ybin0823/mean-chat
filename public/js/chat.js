@@ -31,8 +31,8 @@ chatApp.factory('socket', function ($rootScope) {
 });
 
 chatApp.controller('chatCtrl', function ($scope, socket) {
-	$scope.messages = [];
-	
+	$scope.chatList = [];
+
 	$scope.sendMessage = function () {
 		console.log($scope.text);
 
@@ -40,15 +40,15 @@ chatApp.controller('chatCtrl', function ($scope, socket) {
     	$scope.text = '';
 	}
 
-	socket.on('send message', function(message) {
-		console.log('from server : ' + message);
-		$scope.messages.push(message);
+	socket.on('send message', function (data) {
+		$scope.chatList.push(data);
 	});
 });
 
-chatApp.controller('nameCtrl', function ($scope, $location) {
+chatApp.controller('nameCtrl', function ($scope, $location, socket) {
 	$scope.startChat = function () {
 		console.log($scope.name);
+		socket.emit('init', $scope.name);
 		$location.path('/chat');
 	}
 });
