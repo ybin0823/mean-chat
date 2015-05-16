@@ -1,3 +1,7 @@
+/*
+ * name.html
+ */
+
 form.name-form {
 	position: absolute;
 	width: 100%;
@@ -13,14 +17,27 @@ form.name-form input.btn {
 	margin-top: 5px;
 }
 
-form.name-form input.form-control{
+form.name-form input.form-control {
 	width: 50%;
 }
+
+/*
+ * chat.html
+ */
 
 form.chat-form {
 	position: fixed;
 	width: 100%;
-	bottom : 10px;
+	bottom : 20px;
+}
+
+form.chat-form input.form-control {
+	width: 80%;
+	margin: 0 auto;
+}
+
+form.chat-form input.btn {
+	display: none;
 }
 
 li {

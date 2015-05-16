@@ -1,9 +1,7 @@
 <div ng-controller="chatCtrl">
 	<ul ng-repeat="chat in chatList track by $index"><li>{{chat.name}} : {{chat.message}}</li></ul>
 	<form class="chat-form" ng-submit="sendMessage()">
-		<div class="col-sm-10">
-			<input class="form-control" ng-model="text" type="text">
-		</div>
-		<input class="btn btn-default" type="submit" value="Send">
+		<input class="form-control" ng-model="text" type="text">
+		<input class="btn btn-default" type="submit">
 	</form>
 </div>
