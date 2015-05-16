@@ -1,4 +1,11 @@
-var chatApp = angular.module('chatApp', []);
+var chatApp = angular.module('chatApp', ['ngRoute']);
+chatApp.config(['$routeProvider', function ($routeProvider) {
+	$routeProvider
+	.when('/', {templateUrl : 'partials/name.html'})
+	.when('/chat', {templateUrl : 'partials/chat.html'})
+	.otherwise({redirectTo: '/name.html'})
+}]);
+
 chatApp.factory('socket', function ($rootScope) {
   var socket = io.connect();
   return {
@@ -23,10 +30,10 @@ chatApp.factory('socket', function ($rootScope) {
   };
 });
 
-chatApp.controller('chatCtrl', function($scope, socket) {
+chatApp.controller('chatCtrl', function ($scope, socket) {
 	$scope.messages = [];
-
-	$scope.sendMessage = function() {
+	
+	$scope.sendMessage = function () {
 		console.log($scope.text);
 
 		socket.emit('send message', $scope.text);
@@ -37,4 +44,11 @@ chatApp.controller('chatCtrl', function($scope, socket) {
 		console.log('from server : ' + message);
 		$scope.messages.push(message);
 	});
+});
+
+chatApp.controller('nameCtrl', function ($scope, $location) {
+	$scope.startChat = function () {
+		console.log($scope.name);
+		$location.path('/chat');
+	}
 });
