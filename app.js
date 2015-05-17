@@ -16,25 +16,22 @@ var users = [];
 var rooms = [];
 
 io.on('connection', function (socket) {
-  var addedUser = false;
 
   console.log("user connected!");
 
-  socket.on('init', function (userName) {
-  	console.log("User " + userName + " started chatting!");
-  	socket.userName = userName;
-  	users[userName] = userName;
-  	addedUser = true;
+  socket.on('init', function (data) {
+  	console.log("User " + data.userName + " started chatting!");
+  	socket.userName = data.userName;
+  	users[data.userName] = data.userName;
+  	socket.join(data.roomName);
   });
 
-  socket.on('disconnect', function () {
+  socket.on('send message', function (data) {
+  	io.sockets.in(data.roomName).emit('send message', { userName : socket.userName, message : data.message });
+  });
+
+   socket.on('disconnect', function () {
   	console.log("User " + socket.userName + " disconnected!");
-  });
-
-  socket.on('send message', function (message) {
-  	console.log("chat : " + message);
-  	// socket.broadcast.emit('send message', { name : socket.name, message : message });
-  	io.emit('send message', { userName : socket.userName, message : message });
   });
 });
 

@@ -32,11 +32,12 @@ chatApp.factory('socket', function ($rootScope) {
 
 chatApp.controller('chatCtrl', function ($scope, socket) {
 	$scope.chatList = [];
+	console.log("Here is " + $scope.roomName);
 
 	$scope.sendMessage = function () {
 		console.log($scope.message);
 
-		socket.emit('send message', $scope.message);
+		socket.emit('send message', { message: $scope.message, roomName: $scope.roomName });
     	$scope.message = '';
 	}
 
@@ -45,16 +46,15 @@ chatApp.controller('chatCtrl', function ($scope, socket) {
 	});
 });
 
-chatApp.controller('nameCtrl', function ($scope, $rootScope, $location, socket) {
+chatApp.controller('nameCtrl', function ($scope, $rootScope, $location) {
 	$scope.startChat = function () {
 		console.log($scope.userName);
 		$rootScope.userName = $scope.userName;
-		socket.emit('init', $scope.userName);
 		$location.path('/rooms');
 	}
 });
 	
-chatApp.controller('roomCtrl', function ($scope, $http) {
+chatApp.controller('roomCtrl', function ($scope, $rootScope, $http, $location, socket) {
 	$http.get('/rooms').success(function (res) {
 		console.log('Received rooms from server')
 		$scope.rooms = res;
@@ -64,8 +64,16 @@ chatApp.controller('roomCtrl', function ($scope, $http) {
 		console.log($scope.roomName);
 		$http.post('/rooms', { roomName : $scope.roomName, userName : $scope.userName }).success(function (res) {
 			console.log(res);
-			$scope.rooms = res;
+			$rootScope.roomName = $scope.roomName;
+			socket.emit('init', { userName: $scope.userName, roomName : $scope.roomName });
+			$location.path('/chat');
 		});
-		$scope.roomName = '';
+	}
+
+	$scope.joinRoom = function (roomName) {
+		console.log('join the ' + roomName);
+		$rootScope.roomName = roomName;
+		socket.emit('init', { userName: $scope.userName, roomName : roomName });
+		$location.path('/chat');
 	}
 });
