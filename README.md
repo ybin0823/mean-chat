@@ -12,7 +12,7 @@
 3. Build Tool
  - Grunt
 
-4. How to use
+## How to use
  - git clone https://github.com/ybin0823/mean-chat.git
  - cd mean-chat && npm install
  - bower install
