@@ -11,7 +11,7 @@
 			<tr>
 				<th>Room Name</th>
 				<th>Creator</th>
-				<th>Participant</th>
+				<th>Participants</th>
 				<th></th>
 			</tr>
 		</thead>
@@ -19,7 +19,7 @@
 			<tr ng-repeat="room in rooms">
 				<td>{{ room.roomName }}</td>
 				<td>{{ room.creator }}</td>
-				<td></td>
+				<td>{{ room.participants }}</td>
 				<td><button class="btn btn-success" ng-click="joinRoom(room.roomName)">Join</button></td>
 			</tr>
 		</tbody>	

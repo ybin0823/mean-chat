@@ -57,15 +57,16 @@ chatApp.controller('nameCtrl', function ($scope, $rootScope, $location) {
 chatApp.controller('roomCtrl', function ($scope, $rootScope, $http, $location, socket) {
 	$http.get('/rooms').success(function (res) {
 		console.log('Received rooms from server')
+		console.log(res);
 		$scope.rooms = res;
-	})
+	});
 
 	$scope.createRoom = function () {
 		console.log($scope.roomName);
 		$http.post('/rooms', { roomName : $scope.roomName, userName : $scope.userName }).success(function (res) {
-			console.log(res);
+			console.log('create the ' + $scope.roomName);
 			$rootScope.roomName = $scope.roomName;
-			socket.emit('init', { userName: $scope.userName, roomName : $scope.roomName });
+			socket.emit('create the room', { userName: $scope.userName, roomName : $scope.roomName });
 			$location.path('/chat');
 		});
 	}
@@ -73,7 +74,7 @@ chatApp.controller('roomCtrl', function ($scope, $rootScope, $http, $location, s
 	$scope.joinRoom = function (roomName) {
 		console.log('join the ' + roomName);
 		$rootScope.roomName = roomName;
-		socket.emit('init', { userName: $scope.userName, roomName : roomName });
+		socket.emit('join the room', { userName: $scope.userName, roomName : roomName });
 		$location.path('/chat');
 	}
 });
