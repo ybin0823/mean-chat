@@ -15,18 +15,18 @@ io.on('connection', function (socket) {
 
   console.log("user connected!");
 
-  socket.on('init', function (name) {
-  	console.log("User " + name + " started chatting!");
-  	socket.name = name;
+  socket.on('init', function (userName) {
+  	console.log("User " + userName + " started chatting!");
+  	socket.userName = userName;
   });
 
   socket.on('disconnect', function () {
-  	console.log("User " + socket.name + " disconnected!");
+  	console.log("User " + socket.userName + " disconnected!");
   });
 
   socket.on('send message', function (message) {
   	console.log("chat : " + message);
   	// socket.broadcast.emit('send message', { name : socket.name, message : message });
-  	io.emit('send message', { name : socket.name, message : message });
+  	io.emit('send message', { userName : socket.userName, message : message });
   });
 });
