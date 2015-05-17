@@ -12,6 +12,10 @@
     "chat"
   ],
   "author": "Young bin Jang",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ybin0823/mean-chat.git"
+  },
   "license": "ISC",
   "dependencies": {
     "express": "^4.12.3",
