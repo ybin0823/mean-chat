@@ -22,7 +22,7 @@ io.on('connection', function (socket) {
   socket.on('create the room', function (data) {
   	console.log("User " + data.userName + " created room!");
   	socket.userName = data.userName;
-  	users[data.userName] = data.userName;
+  	// users[data.userName] = data.userName;
 
   	socket.join(data.roomName);
   });
@@ -30,7 +30,7 @@ io.on('connection', function (socket) {
   socket.on('join the room', function (data) {
   	console.log("User " + data.userName + " joined room!");
   	socket.userName = data.userName;
-  	users[data.userName] = data.userName;
+  	// users[data.userName] = data.userName;
 
   	for(var i = 0; i < rooms.length; i++) {
   		if(rooms[i].roomName == data.roomName) {
@@ -55,8 +55,24 @@ app.get('/rooms', function (req, res) {
 	res.json(rooms);
 });
 
+app.post('/users', function (req, res) {
+	console.log('userName : ' + users[req.body.userName]);
+	if(users[req.body.userName]) {
+		res.json('fail');
+		return;
+	}
+	users[req.body.userName] = req.body.userName;
+	res.json('success');
+});
+
 app.post('/rooms', function (req, res) {
 	console.log(req.body);
+	for(var i = 0; i < rooms.length; i++) {
+		if(rooms[i].roomName == req.body.roomName) {
+			res.json('fail');
+			return;
+		}
+	}
 	rooms.push({ roomName : req.body.roomName, creator: req.body.userName, participants: [] });
-	res.json(rooms);
+	res.json('success');
 });

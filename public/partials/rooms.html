@@ -1,9 +1,10 @@
 <div ng-controller="roomCtrl">
-	<h3>Welcom, {{userName}} !!</h3>
+	<h3>Welcom, {{ userName }} !!</h3>
 
 	<form class='room-form' ng-submit="createRoom()">
 		<input class="form-control" type="text" ng-model="roomName" placeholder="Room Name">
 		<input class="btn btn-primary" type="submit" value="Create">
+		<label class="lbl-warn">{{ errorMessage }}</label>
 	</form>
 
 	<table class="table">

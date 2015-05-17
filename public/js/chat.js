@@ -46,11 +46,17 @@ chatApp.controller('chatCtrl', function ($scope, socket) {
 	});
 });
 
-chatApp.controller('nameCtrl', function ($scope, $rootScope, $location) {
+chatApp.controller('nameCtrl', function ($scope, $http, $rootScope, $location) {
 	$scope.startChat = function () {
-		console.log($scope.userName);
-		$rootScope.userName = $scope.userName;
-		$location.path('/rooms');
+		$http.post('/users', { userName : $scope.userName }).success(function (res) {
+			if(res === 'fail') {
+				$scope.errorMessage = 'The user name already existed';
+				return;
+			}
+			console.log($scope.userName);
+			$rootScope.userName = $scope.userName;
+			$location.path('/rooms');
+		});
 	}
 });
 	
@@ -64,6 +70,11 @@ chatApp.controller('roomCtrl', function ($scope, $rootScope, $http, $location, s
 	$scope.createRoom = function () {
 		console.log($scope.roomName);
 		$http.post('/rooms', { roomName : $scope.roomName, userName : $scope.userName }).success(function (res) {
+			console.log(res);
+			if(res === 'fail') {
+				$scope.errorMessage = 'The room name already existed';
+				return;
+			}
 			console.log('create the ' + $scope.roomName);
 			$rootScope.roomName = $scope.roomName;
 			socket.emit('create the room', { userName: $scope.userName, roomName : $scope.roomName });
